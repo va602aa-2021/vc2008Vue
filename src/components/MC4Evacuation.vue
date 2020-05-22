@@ -22,6 +22,7 @@
         <h2>Persons</h2>
         <b-list-group class="personList">
           <b-list-group-item v-for="p in persons" :key="p.id"
+                                :variant="p.selected ? 'warning': ''"
           class="d-flex justify-content-between align-items-center">
             <b-badge variant="primary" pill>{{p.id}}</b-badge>
             {{p.person}}
@@ -42,8 +43,7 @@ const d3 = require('d3');
 function euclideanDistance(a, b) {
   return Math.sqrt(((a.x - b.x) ** 2) + ((a.y - b.y) ** 2));
 }
-const trajectories = TrajectoryView()
-  .on('interval', (list) => { console.log(list); });
+const trajectories = TrajectoryView();
 
 export default {
   name: 'MC4Evacuation',
@@ -126,6 +126,24 @@ export default {
 
         // d3.select("#status")
         // .call(me.statusbar);
+      });
+
+    trajectories
+      .on('interval.list', (list) => {
+        console.log(list);
+        const ids = list.map(p => p.id);
+        this.persons = this.persons.map((p) => {
+          if (ids.indexOf(p.id) >= 0) {
+            return {
+              ...p,
+              selected: true,
+            };
+          }
+          return {
+            ...p,
+            selected: false,
+          };
+        });
       });
   },
   watch: {
