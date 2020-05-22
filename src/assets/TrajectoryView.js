@@ -5,6 +5,8 @@ export default function Trajectories() {
   let paths;
   let cellSize = 7.5;
 
+  const dispatch = d3.dispatch('interval');
+
   const x = d3.scaleLinear()
     .domain([0, 91])
     .range([cellSize * 0.5, (91 * cellSize) + (cellSize * 0.5)]);
@@ -49,6 +51,7 @@ export default function Trajectories() {
       }
     });
     // console.log('list', list.length);
+    dispatch.call('interval', this, list);
   }
 
   const brush = d3.brush()
@@ -74,7 +77,16 @@ export default function Trajectories() {
     container.append('g')
       .attr('class', 'brush')
       .call(brush);
+
+
+    // handler for selection of events
   }
+
+  me.on = function (eventType, handler) {
+    dispatch.on(eventType, handler);
+
+    return me;
+  };
 
   me.timeExtent = function _timeExtent(_) {
     if (!arguments.length) return timeExtent;

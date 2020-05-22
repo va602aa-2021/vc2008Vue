@@ -42,7 +42,8 @@ const d3 = require('d3');
 function euclideanDistance(a, b) {
   return Math.sqrt(((a.x - b.x) ** 2) + ((a.y - b.y) ** 2));
 }
-const trajectories = TrajectoryView();
+const trajectories = TrajectoryView()
+  .on('interval', (list) => { console.log(list); });
 
 export default {
   name: 'MC4Evacuation',
