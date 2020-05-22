@@ -144,8 +144,8 @@ export default {
             selected: false,
           };
         })
-          .sort((a,b) => a.id - b.id)
-        .sort((a,b) => b.selected - a.selected);
+          .sort((a, b) => a.id - b.id)
+          .sort((a, b) => b.selected - a.selected);
       });
   },
   watch: {
@@ -159,10 +159,6 @@ export default {
 };
 </script>
 
-<style scoped>
-  .personList{
-    height: 600px;
-    overflow: scroll;
-    overflow-style: marquee-block ;
-  }
+<style>
+
 </style>

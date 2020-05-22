@@ -37,4 +37,18 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
+.personList{
+  height: 600px;
+  overflow: scroll;
+  overflow-style: marquee-block ;
+}
+
+svg g.trajectories path.person {
+  stroke: blue;
+}
+
+svg g.trajectories path.person.selected {
+  stroke: red;
+}
 </style>

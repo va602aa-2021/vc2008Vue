@@ -68,18 +68,37 @@ export default function Trajectories() {
       .append('path')
       .merge(paths)
       .attr('stroke-width', 2)
-      .attr('stroke', 'black')
+      .classed('person', true)
+      .classed('second', true)
       .attr('fill', 'none')
       .attr('opacity', 0.4);
 
-    paths.attr('d', d => `${path(d.values.slice(timeExtent[0], timeExtent[1]))}m -2, 0 a 2,2 0 1,0 4,0 a 2,2 0 1,0 -4,0 `);
-
+    redraw(paths);
     container.append('g')
       .attr('class', 'brush')
       .call(brush);
 
 
     // handler for selection of events
+    dispatch.on('interval.trajs', (list) => {
+      const persons = container.datum();
+      const ids = list.map(d => d.id);
+
+      persons.forEach((p) => {
+        if (ids.indexOf(p.person) >= 0) {
+          p.selected = true;
+        } else {
+          p.selected = false;
+        }
+      });
+      redraw(paths);
+    });
+  }
+
+  function redraw(paths){
+    paths
+      .classed('selected', d => d.selected)
+      .attr('d', d => `${path(d.values.slice(timeExtent[0], timeExtent[1]))}m -2, 0 a 2,2 0 1,0 4,0 a 2,2 0 1,0 -4,0 `);
   }
 
   me.on = function (eventType, handler) {
