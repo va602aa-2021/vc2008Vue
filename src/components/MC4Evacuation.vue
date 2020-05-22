@@ -143,7 +143,9 @@ export default {
             ...p,
             selected: false,
           };
-        });
+        })
+          .sort((a,b) => a.id - b.id)
+        .sort((a,b) => b.selected - a.selected);
       });
   },
   watch: {
