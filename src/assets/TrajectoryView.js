@@ -57,6 +57,12 @@ export default function Trajectories() {
   const brush = d3.brush()
     .on('end', brushended);
 
+  function redraw(_paths) {
+    _paths
+      .classed('selected', d => d.selected)
+      .attr('d', d => `${path(d.values.slice(timeExtent[0], timeExtent[1]))}m -2, 0 a 2,2 0 1,0 4,0 a 2,2 0 1,0 -4,0 `);
+  }
+
   function me(selection) {
     // draw all trajectories
     container = selection;
@@ -86,8 +92,10 @@ export default function Trajectories() {
 
       persons.forEach((p) => {
         if (ids.indexOf(p.person) >= 0) {
+          // eslint-disable-next-line no-param-reassign
           p.selected = true;
         } else {
+          // eslint-disable-next-line no-param-reassign
           p.selected = false;
         }
       });
@@ -95,13 +103,7 @@ export default function Trajectories() {
     });
   }
 
-  function redraw(paths){
-    paths
-      .classed('selected', d => d.selected)
-      .attr('d', d => `${path(d.values.slice(timeExtent[0], timeExtent[1]))}m -2, 0 a 2,2 0 1,0 4,0 a 2,2 0 1,0 -4,0 `);
-  }
-
-  me.on = function (eventType, handler) {
+  me.on = (eventType, handler) => {
     dispatch.on(eventType, handler);
 
     return me;

@@ -130,7 +130,7 @@ export default {
 
     trajectories
       .on('interval.list', (list) => {
-        console.log(list);
+        // console.log(list);
         const ids = list.map(p => p.id);
         this.persons = this.persons.map((p) => {
           if (ids.indexOf(p.id) >= 0) {
