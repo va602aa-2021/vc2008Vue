@@ -80,10 +80,11 @@ export default function Trajectories() {
       .attr('opacity', 0.4);
 
     redraw(paths);
-    container.append('g')
+    container.selectAll('g.brush')
+      .data(d => [d])
+      .join('g')
       .attr('class', 'brush')
       .call(brush);
-
 
     // handler for selection of events
     dispatch.on('interval.trajs', (list) => {
